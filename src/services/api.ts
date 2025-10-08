@@ -610,7 +610,7 @@ export class ApiService {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch(`${API_BASE_URL}/upload`, {
+    const response = await fetch(`${API_BASE_URL}/database/upload`, {
       method: 'POST',
       headers: {
         ...this.getAuthHeaders(),

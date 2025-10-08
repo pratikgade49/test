@@ -57,6 +57,18 @@ function App() {
   });
   const [forecastResult, setForecastResult] = useState<ForecastResult | MultiForecastResult | null>(null);
   const [step, setStep] = useState<'configure' | 'results'>('configure');
+  const [externalFactors, setExternalFactors] = useState<string[]>([]);
+
+
+  const loadExternalFactors = async () => {
+  try {
+    const response = await ApiService.getExternalFactors();
+    setExternalFactors(response.external_factors);
+  } catch (error) {
+    console.error('Failed to load external factors:', error);
+  }
+  };
+
   const [uniqueOptions, setUniqueOptions] = useState<{
     products: string[];
     customers: string[];
@@ -721,7 +733,8 @@ function App() {
           <div className="mb-8 bg-white rounded-xl shadow-lg p-6">
             <ExternalFactorUpload
               onUploadSuccess={() => {
-                alert('External factors uploaded successfully!');
+                loadDatabaseStats();
+                loadExternalFactors(); // Add this line
                 setShowExternalFactorUpload(false);
               }}
             />
@@ -732,12 +745,12 @@ function App() {
         {/* Live External Factor Fetch Section - ADD THIS BLOCK */}
         {showLiveFetch && (
           <div className="mb-8">
-            <LiveExternalFactorFetch
-              onFetchSuccess={() => {
-                alert('FRED data fetched and saved successfully!');
-                setShowLiveFetch(false); // Optionally close after successful fetch
-              }}
-            />
+                      <LiveExternalFactorFetch
+            onFetchSuccess={() => {
+              loadDatabaseStats();
+              loadExternalFactors(); // Add this line
+            }}
+          />
           </div>
         )}
 

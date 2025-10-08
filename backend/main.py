@@ -177,8 +177,6 @@ class ForecastConfig(BaseModel):
     advancedMode: bool = False
     externalFactors: Optional[List[str]] = None
 
-# Keep the ForecastingEngine class here (with all its methods)
-# This is the core forecasting logic that routers will use
 class ForecastingEngine:
     """Advanced forecasting engine with multiple algorithms"""
 
